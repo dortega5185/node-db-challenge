@@ -8,6 +8,7 @@ module.exports = {
   addProject,
   addTask,
   addResource,
+  tasksOnly,
 };
 
 function getProjects() {
@@ -33,6 +34,10 @@ function getListOfTasks(id) {
     .where({ "projects.id": id });
 }
 
+function tasksOnly(id) {
+  return db("tasks");
+}
+
 function getListOfResources(id) {
   return db("resources");
 }
@@ -45,8 +50,44 @@ function addProject(project) {
     });
 }
 
-function addTask(id) {
-  return db("tasks");
+function addTask(tasks, id) {
+  const anotherTask = {
+    project_id: id,
+    task_description: tasks.task_description,
+    notes: tasks.notes,
+    completed: tasks.completed,
+  };
+  return db("tasks")
+    .insert(anotherTask, id)
+    .then((id) => {
+      return tasksOnly(anotherTask.id);
+    });
 }
 
-function addResource(id) {}
+function addResource(resources, id) {
+  const newResource = {
+    name: resources.name,
+    descriptions: resources.descriptions,
+  };
+  return (
+    db("resources")
+      // .select(
+      //   "project_resources.project_id",
+      //   "resources.name",
+      //   "resources.descriptions"
+      // )
+      // .from("resources")
+      // .join(
+      //   "project_resources",
+      //   "project_resources.resources_id",
+      //   "=",
+      //   "rescourses.id"
+      // )
+      // .join("projects", "projects.id", "=", "project_resources.project_id")
+      // .where({ "projects.id": id })
+      .insert(newResource, id)
+      .then((id) => {
+        return getListOfResources(newResource.id);
+      })
+  );
+}

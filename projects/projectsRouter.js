@@ -63,11 +63,20 @@ router.post("/", (req, res) => {
 });
 
 router.post("/:id/tasks", (req, res) => {
-  const task = req.body;
+  const taskData = req.body;
+  const { id } = req.params;
 
-  Projects.addTask(task)
-    .then((task) => {
-      res.status(201).json(task);
+  Projects.findById(id)
+    .then((project) => {
+      if (project) {
+        Projects.addTask(taskData, id).then((task) => {
+          res.status(201).json(task);
+        });
+      } else {
+        res
+          .status(404)
+          .json({ message: "Could not find project with given id." });
+      }
     })
     .catch((err) => {
       res.status(500).json({ message: "Failed to create new task" });
@@ -75,11 +84,20 @@ router.post("/:id/tasks", (req, res) => {
 });
 
 router.post("/:id/resources", (req, res) => {
-  const resources = req.body;
+  const resourceData = req.body;
+  const { id } = req.params;
 
-  Projects.addResource(resources)
-    .then((resource) => {
-      res.status(201).json(resource);
+  Projects.findById(id)
+    .then((project) => {
+      if (project) {
+        Projects.addResource(resourceData, id).then((resource) => {
+          res.status(201).json(resource);
+        });
+      } else {
+        res
+          .status(404)
+          .json({ message: "Could not find project with given id." });
+      }
     })
     .catch((err) => {
       res.status(500).json({ message: "Failed to create new resource" });
