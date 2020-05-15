@@ -69,25 +69,24 @@ function addResource(resources, id) {
     name: resources.name,
     descriptions: resources.descriptions,
   };
-  return (
-    db("resources")
-      // .select(
-      //   "project_resources.project_id",
-      //   "resources.name",
-      //   "resources.descriptions"
-      // )
-      // .from("resources")
-      // .join(
-      //   "project_resources",
-      //   "project_resources.resources_id",
-      //   "=",
-      //   "rescourses.id"
-      // )
-      // .join("projects", "projects.id", "=", "project_resources.project_id")
-      // .where({ "projects.id": id })
-      .insert(newResource, id)
-      .then((id) => {
-        return getListOfResources(newResource.id);
-      })
-  );
+  return db("resources")
+    .insert(newResource, id)
+    .then((id) => {
+      return getListOfResources(newResource.id);
+    });
 }
+
+// .select(
+//   "project_resources.project_id",
+//   "resources.name",
+//   "resources.descriptions"
+// )
+// .from("resources")
+// .join(
+//   "project_resources",
+//   "project_resources.resources_id",
+//   "=",
+//   "rescourses.id"
+// )
+// .join("projects", "projects.id", "=", "project_resources.project_id")
+// .where({ "projects.id": id })
