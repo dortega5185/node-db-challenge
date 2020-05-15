@@ -5,7 +5,7 @@ const Projects = require("./projects-model.js");
 const router = express.Router();
 
 router.get("/", (req, res) => {
-  Projects.getAll()
+  Projects.getProjects()
     .then((projects) => {
       res.json(projects);
     })
@@ -53,7 +53,7 @@ router.get("/:id/resources", (req, res) => {
 router.post("/", (req, res) => {
   const project = req.body;
 
-  Projects.add(project)
+  Projects.addProject(project)
     .then((project) => {
       res.status(201).json(project);
     })
@@ -65,7 +65,7 @@ router.post("/", (req, res) => {
 router.post("/:id/tasks", (req, res) => {
   const task = req.body;
 
-  Projects.add(task)
+  Projects.addTask(task)
     .then((task) => {
       res.status(201).json(task);
     })
@@ -77,7 +77,7 @@ router.post("/:id/tasks", (req, res) => {
 router.post("/:id/resources", (req, res) => {
   const resources = req.body;
 
-  Projects.add(resources)
+  Projects.addResource(resources)
     .then((resource) => {
       res.status(201).json(resource);
     })
