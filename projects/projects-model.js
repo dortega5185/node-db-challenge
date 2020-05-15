@@ -19,7 +19,18 @@ function findById(id) {
 }
 
 function getListOfTasks(id) {
-  return db("tasks");
+  return db
+    .select(
+      "projects.name",
+      "projects.descriptions",
+      "tasks.task_description",
+      "tasks.notes",
+      "tasks.completed",
+      "tasks.project_id"
+    )
+    .from("projects")
+    .join("tasks", "tasks.project_id", "=", "projects.id")
+    .where({ "projects.id": id });
 }
 
 function getListOfResources(id) {
