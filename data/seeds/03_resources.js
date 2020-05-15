@@ -1,13 +1,16 @@
-
-exports.seed = function(knex) {
-  // Deletes ALL existing entries
-  return knex('table_name').del()
-    .then(function () {
-      // Inserts seed entries
-      return knex('table_name').insert([
-        {id: 1, colName: 'rowValue1'},
-        {id: 2, colName: 'rowValue2'},
-        {id: 3, colName: 'rowValue3'}
-      ]);
-    });
+exports.seed = function (knex, Promise) {
+  // we want to remove all data before seeding
+  // truncate will reset the primary key each time
+  return knex("resources").insert([
+    { name: "John Garnett", descriptions: "developer" },
+    { name: "computer" },
+    { name: "software license" },
+    { name: "meeting room" },
+    { name: "internet" },
+    { name: "Gary Moss", descriptions: "data science student" },
+    { name: "Gary Vee", descriptions: "for motivation" },
+    { name: "tables" },
+    { name: "stress balls", descriptions: "to calm the mind" },
+  ]);
+  // add data into insert
 };

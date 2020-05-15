@@ -5,14 +5,14 @@ exports.up = function (knex) {
 
       projects.string("name", 255).notNullable();
       projects.string("descriptions", 255);
-      projects.integer("completed").defaultTo(0);
+      projects.boolean("completed").defaultTo(false);
     })
     .createTable("tasks", (tasks) => {
       tasks.increments();
 
       tasks.string("descriptions").notNullable();
       tasks.string("notes", 255);
-      tasks.integer("completed").defaultTo(0);
+      tasks.boolean("completed").defaultTo(false);
 
       tasks
         .integer("project_id")
@@ -26,7 +26,7 @@ exports.up = function (knex) {
     .createTable("resources", (resources) => {
       resources.increments();
 
-      resources.string("name", 255).notNullable();
+      resources.string("name", 255).notNullable().unique();
       resources.string("descriptions", 255);
     })
     .createTable("project_resources", (project_resources) => {
